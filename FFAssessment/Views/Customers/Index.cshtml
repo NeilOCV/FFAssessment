@@ -1,0 +1,14 @@
+﻿@model List<APIMessages.CustonmersEntity>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>List of customers from Web API</h2>
+<ol>
+    @foreach(var item in Model)
+    {
+        <li>@string.Format("{0} - {1} - {2} - {3}", item.id, item.name, item.longetude.ToString("0.0000"), item.latitude.ToString("0.0000"))</li>
+    }
+</ol>
+
