@@ -18,13 +18,16 @@ namespace FFAssessment.Controllers
 
             return View(customers);
         }
-
-
-        private List<CustonmersEntity> GetCustomersFromAPI()
+        [HttpGet]
+        public ActionResult Create()
+        {
+            return View();
+        }
+        private List<CustomersEntity> GetCustomersFromAPI()
         {
             try
             {
-                var resultList = new List<CustonmersEntity>();
+                var resultList = new List<CustomersEntity>();
                 var client = new HttpClient();
                 var getDataTask = client.GetAsync(strBaseURL + "api/Customers")
                     .ContinueWith(response =>
@@ -32,7 +35,7 @@ namespace FFAssessment.Controllers
                         var result = response.Result;
                         if(result.StatusCode==System.Net.HttpStatusCode.OK)
                         {
-                            var readResult = result.Content.ReadAsAsync<List<CustonmersEntity>>();
+                            var readResult = result.Content.ReadAsAsync<List<CustomersEntity>>();
                             readResult.Wait();
                             resultList = readResult.Result;
                         }

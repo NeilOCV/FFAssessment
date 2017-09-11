@@ -5,7 +5,7 @@ using System.Web;
 
 namespace APIMessages
 {
-    public class CustonmersEntity
+    public class CustomersEntity
     {
         public int id { get; set; }
         public string name { get; set; }

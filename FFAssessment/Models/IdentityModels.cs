@@ -29,5 +29,7 @@ namespace FFAssessment.Models
         {
             return new ApplicationDbContext();
         }
+
+        public System.Data.Entity.DbSet<APIMessages.CustomersEntity> CustomersEntities { get; set; }
     }
 }

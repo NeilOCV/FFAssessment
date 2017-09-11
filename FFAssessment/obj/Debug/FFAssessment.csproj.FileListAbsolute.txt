@@ -107,6 +107,6 @@ C:\Source\GitHub\FiveFriday\FFAssessment\FFAssessment\bin\Microsoft.Owin.Securit
 C:\Source\GitHub\FiveFriday\FFAssessment\FFAssessment\bin\Microsoft.Owin.Security.Google.xml
 C:\Source\GitHub\FiveFriday\FFAssessment\FFAssessment\bin\Microsoft.Owin.Security.Twitter.xml
 C:\Source\GitHub\FiveFriday\FFAssessment\FFAssessment\bin\Microsoft.Owin.Security.MicrosoftAccount.xml
-C:\Source\GitHub\FiveFriday\FFAssessment\FFAssessment\obj\Debug\FFAssessment.csprojResolveAssemblyReference.cache
 C:\Source\GitHub\FiveFriday\FFAssessment\FFAssessment\obj\Debug\FFAssessment.dll
 C:\Source\GitHub\FiveFriday\FFAssessment\FFAssessment\obj\Debug\FFAssessment.pdb
+C:\Source\GitHub\FiveFriday\FFAssessment\FFAssessment\obj\Debug\FFAssessment.csprojResolveAssemblyReference.cache
