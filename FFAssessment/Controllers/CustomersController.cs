@@ -19,6 +19,7 @@ namespace FFAssessment.Controllers
             return View(customers);
         }
 
+
         private List<CustonmersEntity> GetCustomersFromAPI()
         {
             try
