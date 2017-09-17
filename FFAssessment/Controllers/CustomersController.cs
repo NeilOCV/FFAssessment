@@ -11,22 +11,25 @@ namespace FFAssessment.Controllers
 {
     public class CustomersController : Controller
     {
+
+        #region Overheads
         const string strBaseURL = "http://localhost:20564/";
         // GET: Customers
         public ActionResult Index()
         {
             var customers = GetCustomersFromAPI();
-
             return View(customers);
         }
-        [HttpGet]
-        public ActionResult EditContact(int id)
+        #endregion
+
+        #region Customers
+        #region UI Stuff
+
+        [HttpPost]
+        public ActionResult Delete(int id)
         {
-            ContactEntity _contact = new ContactEntity();
-            //List<ContactEntity> lst = new List<ContactEntity>();
-            _contact = GetContactFromAPI(id);
-            
-            return View(_contact);
+            DELETE(id);
+            return RedirectToAction("Index");
         }
         [HttpGet]
         public ActionResult Edit(int id)
@@ -39,30 +42,8 @@ namespace FFAssessment.Controllers
 
             return View(customer);
         }
-        [HttpGet]
-        public ActionResult Contacts(int id)
-        {
-            List<ContactEntity> _contacts = new List<ContactEntity>();
-
-            _contacts = GetContactsForCustomerFromAPI(id);
-
-            return View(_contacts);
-        }
-        [HttpGet]
-        public ActionResult DeleteContact(int id)
-        {
-            DELETEContact(id);
-            return RedirectToAction("Index");
-        }
         [HttpPost]
-        public ActionResult Delete(int id)
-        {
-            DELETE(id);
-            return RedirectToAction("Index");
-        }
-        
-        [HttpPost]
-        public ActionResult Edit(int id,CustomersEntity customer)
+        public ActionResult Edit(int id, CustomersEntity customer)
         {
             PUT(id, customer);
             return RedirectToAction("Index");
@@ -78,11 +59,14 @@ namespace FFAssessment.Controllers
             POST(customer);
             return RedirectToAction("Index");
         }
+
+        #endregion
+        #region API Stuff
         private void POST(CustomersEntity customer)
         {
             HttpClient client = new HttpClient();
             client.BaseAddress = new Uri(strBaseURL);
-            client.PostAsJsonAsync("api/customers",customer);
+            client.PostAsJsonAsync("api/customers", customer);
         }
         private void DELETE(int id)
         {
@@ -90,13 +74,7 @@ namespace FFAssessment.Controllers
             client.BaseAddress = new Uri(strBaseURL);
             client.DeleteAsync(strBaseURL + "api/customers/" + id.ToString());
         }
-        private void DELETEContact(int id)
-        {
-            HttpClient client = new HttpClient();
-            client.BaseAddress = new Uri(strBaseURL);
-            client.DeleteAsync(strBaseURL + "api/contacts/" + id.ToString());
-        }
-        private void PUT(int id,CustomersEntity customer)
+        private void PUT(int id, CustomersEntity customer)
         {
             HttpClient client = new HttpClient();
             client.BaseAddress = new Uri(strBaseURL);
@@ -112,7 +90,7 @@ namespace FFAssessment.Controllers
                     .ContinueWith(response =>
                     {
                         var result = response.Result;
-                        if(result.StatusCode==System.Net.HttpStatusCode.OK)
+                        if (result.StatusCode == System.Net.HttpStatusCode.OK)
                         {
                             var readResult = result.Content.ReadAsAsync<List<CustomersEntity>>();
                             readResult.Wait();
@@ -127,6 +105,76 @@ namespace FFAssessment.Controllers
                 throw ex;
             }
         }
+        #endregion
+        #endregion
+
+        #region Contacts
+        #region UI Stuff
+        [HttpGet]
+        public ActionResult Contacts(int id)
+        {
+            List<ContactEntity> _contacts = new List<ContactEntity>();
+
+            _contacts = GetContactsForCustomerFromAPI(id);
+
+            return View(_contacts);
+        }
+        [HttpGet]
+        public ActionResult DeleteContact(int id)
+        {
+            DELETEContact(id);
+            return RedirectToAction("Index");
+        }
+        [HttpGet]
+        public ActionResult CreateNewContact()
+        {
+            ContactEntity contact = new ContactEntity();
+            return View(contact);
+        }
+        [HttpPost]
+        public ActionResult CreateNewContact(ContactEntity contact)
+        {
+            POSTContact(contact);
+            return View(contact);
+        }
+        [HttpGet]
+        public ActionResult EditContact(int id)
+        {
+            ContactEntity _contact = new ContactEntity();
+            _contact = GetContactFromAPI(id);
+
+            return View(_contact);
+
+        }
+        [HttpPost]
+        public ActionResult EditContact(int id, ContactEntity contact)
+        {
+            PUTContact(id, contact);
+            return View();
+        }
+        #endregion
+        #region API Stuff
+        private void POSTContact(ContactEntity contact)
+        {
+            if (ModelState.IsValid)
+            {
+                HttpClient client = new HttpClient();
+                client.BaseAddress = new Uri(strBaseURL);
+                client.PostAsJsonAsync("api/contacts", contact);
+            }
+        }
+        private void DELETEContact(int id)
+        {
+            HttpClient client = new HttpClient();
+            client.BaseAddress = new Uri(strBaseURL);
+            client.DeleteAsync(strBaseURL + "api/contacts/" + id.ToString());
+        }
+        private void PUTContact(int id, ContactEntity contact)
+        {
+            HttpClient client = new HttpClient();
+            client.BaseAddress = new Uri(strBaseURL);
+            client.PutAsJsonAsync(strBaseURL + "api/contacts/" + id.ToString(), contact);
+        }
         private ContactEntity GetContactFromAPI(int contactID)
         {
             List<ContactEntity> contacts = GetContactsForCustomerFromAPI(-1);
@@ -134,8 +182,8 @@ namespace FFAssessment.Controllers
             if (contacts.Count > 0)
             {
                 var prog = (from tb in contacts
-                           where tb.id == contactID
-                           select tb).Single();
+                            where tb.id == contactID
+                            select tb).Single();
                 if (prog != null)
                     contact = prog;
 
@@ -172,6 +220,8 @@ namespace FFAssessment.Controllers
                 throw ex;
             }
         }
-        
+        #endregion
+        #endregion
+
     }
 }

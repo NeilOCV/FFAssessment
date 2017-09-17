@@ -242,6 +242,7 @@
     <Content Include="Views\Customers\Contacts.cshtml" />
     <Content Include="Views\Customers\EditContact.cshtml" />
     <Content Include="Views\Customers\DeleteContact.cshtml" />
+    <Content Include="Views\Customers\CreateNewContact.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
