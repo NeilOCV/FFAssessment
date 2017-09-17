@@ -240,6 +240,7 @@
     <Content Include="Views\Customers\Edit.cshtml" />
     <Content Include="Views\Customers\Delete.cshtml" />
     <Content Include="Views\Customers\Contacts.cshtml" />
+    <Content Include="Views\Customers\EditContact.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

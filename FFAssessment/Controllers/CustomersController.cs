@@ -20,6 +20,15 @@ namespace FFAssessment.Controllers
             return View(customers);
         }
         [HttpGet]
+        public ActionResult EditContact(int id)
+        {
+            ContactEntity _contact = new ContactEntity();
+            //List<ContactEntity> lst = new List<ContactEntity>();
+            _contact = GetContactFromAPI(id);
+            
+            return View(_contact);
+        }
+        [HttpGet]
         public ActionResult Edit(int id)
         {
             CustomersEntity customer = new CustomersEntity();
@@ -106,13 +115,33 @@ namespace FFAssessment.Controllers
                 throw ex;
             }
         }
+        private ContactEntity GetContactFromAPI(int contactID)
+        {
+            List<ContactEntity> contacts = GetContactsForCustomerFromAPI(-1);
+            ContactEntity contact = new ContactEntity();
+            if (contacts.Count > 0)
+            {
+                var prog = (from tb in contacts
+                           where tb.id == contactID
+                           select tb).Single();
+                if (prog != null)
+                    contact = prog;
+
+            }
+            return contact;
+        }
         private List<ContactEntity> GetContactsForCustomerFromAPI(int customerID)
         {
+            string strURIModifier = "";
+            if (customerID > -1)
+            {
+                strURIModifier = "?cust_id=" + customerID.ToString();
+            }
             try
             {
                 var resultList = new List<ContactEntity>();
                 var client = new HttpClient();
-                var getDataTask = client.GetAsync(strBaseURL + "api/contacts?cust_id="+customerID.ToString())
+                var getDataTask = client.GetAsync(strBaseURL + "api/contacts" + strURIModifier)
                     .ContinueWith(response =>
                     {
                         var result = response.Result;
