@@ -30,17 +30,18 @@ namespace FFAssessment.Controllers
 
             return View(customer);
         }
-        [HttpGet]
+        [HttpPost]
         public ActionResult Delete(int id)
         {
-            
-            return View(Delete(id));
+            DELETE(id);
+            return RedirectToAction("Index");
         }
+        
         [HttpPost]
         public ActionResult Edit(int id,CustomersEntity customer)
         {
             PUT(id, customer);
-            return View("Edit");
+            return RedirectToAction("Index");
         }
         [HttpGet]
         public ActionResult Create()
@@ -51,13 +52,19 @@ namespace FFAssessment.Controllers
         public ActionResult Create(CustomersEntity customer)
         {
             POST(customer);
-            return View("Create");
+            return RedirectToAction("Index");
         }
         private void POST(CustomersEntity customer)
         {
             HttpClient client = new HttpClient();
             client.BaseAddress = new Uri(strBaseURL);
             client.PostAsJsonAsync("api/customers",customer);
+        }
+        private void DELETE(int id)
+        {
+            HttpClient client = new HttpClient();
+            client.BaseAddress = new Uri(strBaseURL);
+            client.DeleteAsync(strBaseURL + "api/customers/" + id.ToString());
         }
         private void PUT(int id,CustomersEntity customer)
         {
