@@ -6,6 +6,7 @@ using System.Web.Mvc;
 using APIMessages;
 using System.Net.Http;
 
+
 namespace FFAssessment.Controllers
 {
     public class CustomersController : Controller
@@ -17,6 +18,29 @@ namespace FFAssessment.Controllers
             var customers = GetCustomersFromAPI();
 
             return View(customers);
+        }
+        [HttpGet]
+        public ActionResult Edit(int id)
+        {
+            CustomersEntity customer = new CustomersEntity();
+            List<CustomersEntity> lst = GetCustomersFromAPI();
+            customer = (from tb in lst
+                        where tb.id == id
+                        select tb).Single();
+
+            return View(customer);
+        }
+        [HttpGet]
+        public ActionResult Delete(int id)
+        {
+            
+            return View(Delete(id));
+        }
+        [HttpPost]
+        public ActionResult Edit(int id,CustomersEntity customer)
+        {
+            PUT(id, customer);
+            return View("Edit");
         }
         [HttpGet]
         public ActionResult Create()
@@ -34,6 +58,12 @@ namespace FFAssessment.Controllers
             HttpClient client = new HttpClient();
             client.BaseAddress = new Uri(strBaseURL);
             client.PostAsJsonAsync("api/customers",customer);
+        }
+        private void PUT(int id,CustomersEntity customer)
+        {
+            HttpClient client = new HttpClient();
+            client.BaseAddress = new Uri(strBaseURL);
+            client.PutAsJsonAsync("api/customers/" + id.ToString(), customer);
         }
         private List<CustomersEntity> GetCustomersFromAPI()
         {
@@ -60,5 +90,6 @@ namespace FFAssessment.Controllers
                 throw ex;
             }
         }
+        
     }
 }
