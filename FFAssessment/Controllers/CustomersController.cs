@@ -21,7 +21,19 @@ namespace FFAssessment.Controllers
         [HttpGet]
         public ActionResult Create()
         {
-            return View();
+            return View("Create");
+        }
+        [HttpPost]
+        public ActionResult Create(CustomersEntity customer)
+        {
+            POST(customer);
+            return View("Create");
+        }
+        private void POST(CustomersEntity customer)
+        {
+            HttpClient client = new HttpClient();
+            client.BaseAddress = new Uri(strBaseURL);
+            client.PostAsJsonAsync("api/customers",customer);
         }
         private List<CustomersEntity> GetCustomersFromAPI()
         {
