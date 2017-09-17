@@ -48,6 +48,12 @@ namespace FFAssessment.Controllers
 
             return View(_contacts);
         }
+        [HttpGet]
+        public ActionResult DeleteContact(int id)
+        {
+            DELETEContact(id);
+            return RedirectToAction("Index");
+        }
         [HttpPost]
         public ActionResult Delete(int id)
         {
@@ -83,6 +89,12 @@ namespace FFAssessment.Controllers
             HttpClient client = new HttpClient();
             client.BaseAddress = new Uri(strBaseURL);
             client.DeleteAsync(strBaseURL + "api/customers/" + id.ToString());
+        }
+        private void DELETEContact(int id)
+        {
+            HttpClient client = new HttpClient();
+            client.BaseAddress = new Uri(strBaseURL);
+            client.DeleteAsync(strBaseURL + "api/contacts/" + id.ToString());
         }
         private void PUT(int id,CustomersEntity customer)
         {
