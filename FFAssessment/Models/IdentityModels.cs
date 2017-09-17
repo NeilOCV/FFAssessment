@@ -31,5 +31,7 @@ namespace FFAssessment.Models
         }
 
         public System.Data.Entity.DbSet<APIMessages.CustomersEntity> CustomersEntities { get; set; }
+
+        public System.Data.Entity.DbSet<APIMessages.ContactEntity> ContactEntities { get; set; }
     }
 }

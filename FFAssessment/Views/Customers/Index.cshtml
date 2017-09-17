@@ -38,8 +38,9 @@
                     @Html.DisplayFor(modelItem => item.longetude)
                 </td>
                 <td>
-                    @Html.ActionLink("Edit", "Edit", new { id = item.id }) |
-                    <input type="submit" value="Delete" class="btn btn-warning" onclick="return confirm('This will delete @item.name as a customer.  Are ya sure?')" />
+                    @Html.ActionLink("Edit", "Edit", new { id = item.id }) | 
+                    @Html.ActionLink("Contacts", "Contacts", new { id = item.id }) | 
+                    <input type="submit" value="Delete" class="btn btn-info" onclick="return confirm('This will delete @item.name as a customer.  Are ya sure?')" />
                 </td>
             </tr>
         }

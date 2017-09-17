@@ -30,6 +30,15 @@ namespace FFAssessment.Controllers
 
             return View(customer);
         }
+        [HttpGet]
+        public ActionResult Contacts(int id)
+        {
+            List<ContactEntity> _contacts = new List<ContactEntity>();
+
+            _contacts = GetContactsForCustomerFromAPI(id);
+
+            return View(_contacts);
+        }
         [HttpPost]
         public ActionResult Delete(int id)
         {
@@ -85,6 +94,31 @@ namespace FFAssessment.Controllers
                         if(result.StatusCode==System.Net.HttpStatusCode.OK)
                         {
                             var readResult = result.Content.ReadAsAsync<List<CustomersEntity>>();
+                            readResult.Wait();
+                            resultList = readResult.Result;
+                        }
+                    });
+                getDataTask.Wait();
+                return resultList;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        private List<ContactEntity> GetContactsForCustomerFromAPI(int customerID)
+        {
+            try
+            {
+                var resultList = new List<ContactEntity>();
+                var client = new HttpClient();
+                var getDataTask = client.GetAsync(strBaseURL + "api/contacts?cust_id="+customerID.ToString())
+                    .ContinueWith(response =>
+                    {
+                        var result = response.Result;
+                        if (result.StatusCode == System.Net.HttpStatusCode.OK)
+                        {
+                            var readResult = result.Content.ReadAsAsync<List<ContactEntity>>();
                             readResult.Wait();
                             resultList = readResult.Result;
                         }
