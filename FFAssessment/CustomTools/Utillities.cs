@@ -26,20 +26,6 @@ namespace FFAssessment
             }
             
         }
-        public class WindowsRegistry
-        {
-            public string Key { get; set; }
-            public string SubKey { get; set; }
-            public void SaveValue(string strValue)
-            {
-                Microsoft.Win32.RegistryKey registryKey = Microsoft.Win32.Registry.CurrentUser.CreateSubKey(Key);
-                registryKey.SetValue(SubKey, strValue);
-                registryKey.Close();
-            }
-            public string GetValue()
-            {
-                return "";
-            }
-        }
+       
     }
 }
