@@ -10,7 +10,14 @@ namespace FFAssessment.Controllers
 {
     public class ContactsController : Controller
     {
-        const string strBaseURL = "http://localhost:20564/";
+        string strBaseURL = string.Empty;
+        private string GetBaseURL()
+        {
+            Utillities.ConfigFiles config = new Utillities.ConfigFiles();
+            strBaseURL = config.GetValue("APIURL");
+            return strBaseURL;
+        }
+        //const string strBaseURL = "http://localhost:20564/";
         // GET: Contacts
         public ActionResult Index()
         {
@@ -24,7 +31,7 @@ namespace FFAssessment.Controllers
             {
                 var resultList = new List<ContactEntity>();
                 var client = new HttpClient();
-                var getDataTask = client.GetAsync(strBaseURL + "api/Contacts")
+                var getDataTask = client.GetAsync(GetBaseURL() + "api/Contacts")
                     .ContinueWith(response =>
                     {
                         var result = response.Result;

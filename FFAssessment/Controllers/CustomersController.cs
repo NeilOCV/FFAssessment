@@ -13,7 +13,14 @@ namespace FFAssessment.Controllers
     {
 
         #region Overheads
-        const string strBaseURL = "http://localhost:20564/";
+        string strBaseURL = string.Empty;
+        private string GetBaseURL()
+        {
+            Utillities.ConfigFiles config = new Utillities.ConfigFiles();
+            strBaseURL = config.GetValue("APIURL");
+            return strBaseURL;
+        }
+        
         // GET: Customers
         public ActionResult Index()
         {
@@ -65,19 +72,19 @@ namespace FFAssessment.Controllers
         private void POST(CustomersEntity customer)
         {
             HttpClient client = new HttpClient();
-            client.BaseAddress = new Uri(strBaseURL);
+            client.BaseAddress = new Uri(GetBaseURL());
             client.PostAsJsonAsync("api/customers", customer);
         }
         private void DELETE(int id)
         {
             HttpClient client = new HttpClient();
-            client.BaseAddress = new Uri(strBaseURL);
-            client.DeleteAsync(strBaseURL + "api/customers/" + id.ToString());
+            client.BaseAddress = new Uri(GetBaseURL());
+            client.DeleteAsync(GetBaseURL() + "api/customers/" + id.ToString());
         }
         private void PUT(int id, CustomersEntity customer)
         {
             HttpClient client = new HttpClient();
-            client.BaseAddress = new Uri(strBaseURL);
+            client.BaseAddress = new Uri(GetBaseURL());
             client.PutAsJsonAsync("api/customers/" + id.ToString(), customer);
         }
         private List<CustomersEntity> GetCustomersFromAPI()
@@ -86,7 +93,7 @@ namespace FFAssessment.Controllers
             {
                 var resultList = new List<CustomersEntity>();
                 var client = new HttpClient();
-                var getDataTask = client.GetAsync(strBaseURL + "api/Customers")
+                var getDataTask = client.GetAsync(GetBaseURL() + "api/Customers")
                     .ContinueWith(response =>
                     {
                         var result = response.Result;
@@ -159,21 +166,21 @@ namespace FFAssessment.Controllers
             if (ModelState.IsValid)
             {
                 HttpClient client = new HttpClient();
-                client.BaseAddress = new Uri(strBaseURL);
+                client.BaseAddress = new Uri(GetBaseURL());
                 client.PostAsJsonAsync("api/contacts", contact);
             }
         }
         private void DELETEContact(int id)
         {
             HttpClient client = new HttpClient();
-            client.BaseAddress = new Uri(strBaseURL);
-            client.DeleteAsync(strBaseURL + "api/contacts/" + id.ToString());
+            client.BaseAddress = new Uri(GetBaseURL());
+            client.DeleteAsync(GetBaseURL() + "api/contacts/" + id.ToString());
         }
         private void PUTContact(int id, ContactEntity contact)
         {
             HttpClient client = new HttpClient();
-            client.BaseAddress = new Uri(strBaseURL);
-            client.PutAsJsonAsync(strBaseURL + "api/contacts/" + id.ToString(), contact);
+            client.BaseAddress = new Uri(GetBaseURL());
+            client.PutAsJsonAsync(GetBaseURL() + "api/contacts/" + id.ToString(), contact);
         }
         private ContactEntity GetContactFromAPI(int contactID)
         {
@@ -201,7 +208,7 @@ namespace FFAssessment.Controllers
             {
                 var resultList = new List<ContactEntity>();
                 var client = new HttpClient();
-                var getDataTask = client.GetAsync(strBaseURL + "api/contacts" + strURIModifier)
+                var getDataTask = client.GetAsync(GetBaseURL() + "api/contacts" + strURIModifier)
                     .ContinueWith(response =>
                     {
                         var result = response.Result;
